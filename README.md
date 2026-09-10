@@ -315,6 +315,7 @@ src/         train.py                training loops for the YOLO26n student and 
              evaluate.py             one evaluation harness across PyTorch, ONNX Runtime, and TensorRT
              export.py               ONNX export and INT8 PTQ with the custom MSE calibrator and gates
              trt_export.py           strongly-typed TensorRT engine builds
+             slim_checkpoint.py      strips training checkpoints to EMA weights and lineage for release
              visualize.py            predictions against ground truth, including the worst offenders
              rtdetr/                 vendored RT-DETR architecture
 
