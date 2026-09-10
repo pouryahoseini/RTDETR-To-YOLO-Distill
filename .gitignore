@@ -1,0 +1,58 @@
+# ── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# ── Editors, tooling, local settings ─────────────────────────────────────────
+.vscode/
+.idea/
+.claude/
+.antigravitycli/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ── Dataset ──────────────────────────────────────────────────────────────────
+# Rebuild with `python src/prepare_dataset.py`, which downloads VisDrone and
+# regenerates every COCO manifest, budget split and derived test set.
+data/
+
+# ── Derived artifacts ────────────────────────────────────────────────────────
+# Each cache is keyed by a fingerprint of what produced it and refuses a
+# mismatch rather than serving a stale entry, so deleting any of it costs only
+# the time to recompute.
+cache/
+
+# Training and evaluation output: TensorBoard event files, per-run evaluation
+# JSON, visualizations.
+runs/
+
+# ── Checkpoints and exported artifacts ───────────────────────────────────────
+# weights/ holds multi-hundred-megabyte binaries and is ignored wholesale.
+weights/
+
+# ── Model binaries ───────────────────────────────────────────────────────────
+# No weights are tracked for now, wherever they land.
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+*.onnx
+*.engine
+*.trt
+*.plan
+*.tflite
+
+# ── Scratch ──────────────────────────────────────────────────────────────────
+scratch/

@@ -1,0 +1,50 @@
+# Runtime dependencies for training, evaluation and export.
+#
+# PyTorch is deliberately not pinned to a CUDA build here: the correct wheel
+# depends on the local driver. Install it first from the PyTorch index, then
+# install this file. The audited environment used Python 3.13.7 with
+# torch 2.8.0+cu129 / torchvision 0.23.0+cu129 on CUDA 12.9:
+#
+#   pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cu129
+#   pip install -r requirements.txt
+
+# ── Core ─────────────────────────────────────────────────────────────────────
+torch>=2.6
+torchvision>=0.21
+numpy>=2.0,<3
+scipy>=1.13                 # Hungarian matcher in the RT-DETR criterion
+
+# ── Detection stack ──────────────────────────────────────────────────────────
+ultralytics>=8.4,<9         # DetectionModel, E2ELoss, TaskAlignedAssigner
+pycocotools>=2.0.8          # COCO manifests and mAP evaluation
+faster-coco-eval>=1.6       # required at import time by the vendored RT-DETR tree
+
+# ── Data pipeline ────────────────────────────────────────────────────────────
+albumentations>=2.0,<3      # 2.x seeds each Compose independently; see dataloader.py
+opencv-python>=4.10
+pillow>=11
+
+# ── Export and quantization ──────────────────────────────────────────────────
+onnx>=1.17
+onnxruntime>=1.20           # quantization API and the FP16 converter
+onnxslim>=0.1.60            # graph simplification for YOLO exports
+
+# ── Logging and reporting ────────────────────────────────────────────────────
+tensorboard>=2.18
+tqdm>=4.66
+matplotlib>=3.9             # pulled in by the vendored RT-DETR visualizer
+rich>=13                    # pulled in by the vendored RT-DETR dist utils
+sympy>=1.13
+packaging>=23
+
+# ── Optional: TensorRT deployment ────────────────────────────────────────────
+# Only needed to build or evaluate .engine artifacts. Both must match the
+# local CUDA installation, so they are left to a manual install:
+#
+#   pip install tensorrt==11.1.0.106 pycuda
+#
+# Everything except `src/trt_export.py` and the `--model trt` evaluation path
+# runs without them.
+
+# ── Development ──────────────────────────────────────────────────────────────
+pytest>=8.0
