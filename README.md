@@ -23,10 +23,16 @@
 
 <table align="center">
 <tr>
-<td><b>Teacher</b><br>RT-DETR-R50vd @ 736×1280<br>42.75 M params / 155.2 GMACs</td>
-<td><b>Student</b><br>YOLO26n @ 736×1280<br>2.51 M params / 6.81 GMACs</td>
-<td><b>Compression</b><br>17.0× params<br>22.8× MACs</td>
-<td><b>Data</b><br>VisDrone-DET, 10 classes<br>6,471 / 548 / 1,610 images</td>
+<th>Teacher</th>
+<th>Student</th>
+<th>Compression</th>
+<th>Data</th>
+</tr>
+<tr>
+<td>RT-DETR-R50vd @ 736×1280<br>42.75 M params / 155.2 GMACs</td>
+<td>YOLO26n @ 736×1280<br>2.51 M params / 6.81 GMACs</td>
+<td>17.0× params<br>22.8× MACs</td>
+<td>VisDrone-DET, 10 classes<br>6,471 / 548 / 1,610 images</td>
 </tr>
 </table>
 
