@@ -71,7 +71,7 @@ used throughout this document
 | Contribution | Approach | Headline result |
 |---|---|---|
 | Label-efficient adaptation | Semi-supervised training over the full unlabelled pool using teacher's pseudo labels | Quarter-budget student (**18.14** mAP@0.5:0.95) beats a *half*-budget supervised control (**17.77**) |
-| Cross-architecture distillation | Decoupled soft logit KD and instance-normalized feature KD | Student trained on zero human boxes (pseudo-labels from the full-budget teacher) + distillation: **19.84 mAP@0.5:0.95**, matching direct human supervision (**19.85**) |
+| Cross-architecture distillation | Decoupled soft logit KD and instance-normalized feature KD | Student trained on zero human boxes (pseudo-labels from the full-budget teacher) + distillation: **19.82 mAP@0.5:0.95**, matching direct human supervision (**19.85**) |
 | Environmental robustness | Rain, night, blur-augmented view | Improves mAP@0.5:0.95 by 0.5–1.6 across adverse conditions |
 | PTQ + TensorRT export | A strongly-typed TRT11 graph, a custom chunked MSE calibrator, layer-aware coverage scopes | INT8 costs ≤0.64 mAP@0.5:0.95 on both architectures; both clear the accuracy gate |
 
@@ -90,7 +90,7 @@ To investigate how weak supervision and knowledge distillation assist aerial obj
 
 | Label budget | Labelled images | Supervised training | Supervised training + KD | **Semi-supervised (+ KD)** | **Teacher-only (+ KD)** | RT-DETR-R50vd Teacher |
 |---|---:|---:|---:|---:|---:|---:|
-| full | 6,471 | 19.85 | 20.04 | N/A | 19.84 | 26.55 |
+| full | 6,471 | 19.85 | 20.04 | N/A | 19.82 | 26.55 |
 | half | 3,249 | 17.77 | 18.14 | **19.07** | 18.97 | 22.29 |
 | quarter | 1,546 | 15.32 | 15.55 | **18.14** | 18.25 | 19.63 |
 | eighth | 805 | 12.57 | 12.77 | **16.34** | 15.97 | 15.76 |
@@ -183,16 +183,16 @@ In contrast, evaluating distillation with **zero human ground-truth boxes** in s
 |---|---:|---:|
 | Pseudo-detections only (no auxiliary KD) | 19.23 | — |
 | + Soft logit KD | 19.60 | +0.37 |
-| + Soft logit + feature KD | 19.84 | +0.61 |
+| + Soft logit + feature KD | 19.82 | +0.59 |
 | *Supervised control (343,204 human boxes, for reference)* | *19.85* | *+0.62* |
 
 These results suggest how each distillation term contributes:
 - Training on raw teacher pseudo-bounding boxes alone achieves **19.23 mAP**. While the pseudo-boxes supply location and categorical targets, they lack confidence calibration and inter-class nuance.
 - Adding **soft logit distillation** contributes **+0.37 mAP** (reaching 19.60 mAP). The decoupled top-1 BCE likely stabilizes foreground confidence while the softmax KL divergence conveys inter-class relations, helping the student differentiate visually similar classes.
-- Adding **feature distillation** contributes an additional **+0.24 mAP** (reaching 19.84 mAP). The instance-normalized masks and directional L2 normalization appear to guide intermediate spatial representations, particularly for dense, small aerial objects.
-- Combined, soft logit and feature distillation provide **+0.61 mAP** over raw pseudo-labels alone. The compact YOLO26n student trained with **no direct human supervision** (19.84 mAP) reaches parity with the directly supervised control (**19.85 mAP** across 343,204 human annotations).
+- Adding **feature distillation** contributes an additional **+0.22 mAP** (reaching 19.82 mAP). The instance-normalized masks and directional L2 normalization appear to guide intermediate spatial representations, particularly for dense, small aerial objects.
+- Combined, soft logit and feature distillation provide **+0.59 mAP** over raw pseudo-labels alone. The compact YOLO26n student trained with **no direct human supervision** (19.82 mAP) reaches parity with the directly supervised control (**19.85 mAP** across 343,204 human annotations).
 
-While hard pseudo-labels provide the primary supervision for unlabelled images, soft logit and feature distillation add a further $+0.61\text{ mAP}$ that closes the remaining gap to direct human supervision, plausibly by transferring calibrated confidence, inter-class relations, and scale-balanced intermediate representations that hard bounding boxes alone do not carry.
+While hard pseudo-labels provide the primary supervision for unlabelled images, soft logit and feature distillation add a further $+0.59\text{ mAP}$ that closes the remaining gap to direct human supervision, plausibly by transferring calibrated confidence, inter-class relations, and scale-balanced intermediate representations that hard bounding boxes alone do not carry.
 
 ---
 
