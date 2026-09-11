@@ -40,7 +40,7 @@
 
 1. [Overview](#1-overview) · 2. [Label-efficient domain adaptation](#2-label-efficient-domain-adaptation) · 3. [Cross-architecture knowledge distillation](#3-cross-architecture-knowledge-distillation)
 4. [Robustness to deployment conditions](#4-robustness-to-deployment-conditions) · 5. [Post-training quantization and export to TensorRT](#5-post-training-quantization-and-export-to-tensorrt)
-6. [How to run the code](#6-how-to-run-the-code) · 7. [Repository layout](#7-repository-layout) · [Appendix: Cross-architecture distillation learnings](#appendix-cross-architecture-distillation-learnings)
+6. [How to run the code](#6-how-to-run-the-code) · 7. [Repository layout](#7-repository-layout) · 8. [Pretrained weights](#8-pretrained-weights) · [Appendix: Cross-architecture distillation learnings](#appendix-cross-architecture-distillation-learnings)
 
 ---
 
@@ -321,6 +321,21 @@ src/         train.py                training loops for the YOLO26n student and 
 
 tests/       362 tests               contract rejections, loss scaling, calibration, gate behaviour
 ```
+
+---
+
+## 8. Pretrained weights
+
+Trained weights are on Hugging Face: [pooryanh/rtdetr-to-yolo-distill](https://huggingface.co/pooryanh/rtdetr-to-yolo-distill).
+The model card documents each file's test-set score, the input/output format, and standalone ONNX
+Runtime usage.
+
+| Folder | Model | mAP@0.5:0.95 |
+|---|---|---:|
+| `rtdetr_r50vd_full/` | RT-DETR-R50vd teacher, full budget (`.pth`, FP32 and INT8 ONNX) | 26.55 |
+| `yolo26n_semi-supervised_eighth/` | Semi-supervised (+ KD) student, eighth budget | 16.34 |
+| `yolo26n_teacher-only_full/` | Teacher-only (+ KD) student, zero human boxes | 19.82 |
+| `yolo26n_supervised-kd_full/` | Supervised + KD student, full budget (`.pth`, FP32 and INT8 ONNX) | 20.04 |
 
 ---
 
