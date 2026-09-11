@@ -73,7 +73,7 @@ used throughout this document
 | Label-efficient adaptation | Semi-supervised training over the full unlabelled pool using teacher's pseudo labels | Quarter-budget student (**18.14** mAP@0.5:0.95) beats a *half*-budget supervised control (**17.77**) |
 | Cross-architecture distillation | Decoupled soft logit KD and instance-normalized feature KD | Student trained on zero human boxes (pseudo-labels from the full-budget teacher) + distillation: **19.82 mAP@0.5:0.95**, matching direct human supervision (**19.85**) |
 | Environmental robustness | Rain, night, blur-augmented view | Improves mAP@0.5:0.95 by 0.5–1.6 across adverse conditions |
-| PTQ + TensorRT export | A strongly-typed TRT11 graph, a custom chunked MSE calibrator, layer-aware coverage scopes | INT8 costs ≤0.64 mAP@0.5:0.95 on both architectures; both clear the accuracy gate |
+| PTQ + TensorRT export | A strongly-typed TRT11 graph, chunked percentile calibration, layer-aware coverage scopes | INT8 costs ≤0.64 mAP@0.5:0.95 on both architectures; both clear the accuracy gate |
 
 ---
 
