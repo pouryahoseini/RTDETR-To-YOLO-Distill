@@ -11,7 +11,7 @@
   <img alt="PyTorch 2.8" src="https://img.shields.io/badge/PyTorch-2.8-EE4C2C.svg">
   <img alt="TensorRT 11.1" src="https://img.shields.io/badge/TensorRT-11.1-76B900.svg">
   <img alt="ONNX Runtime 1.27" src="https://img.shields.io/badge/ONNX%20Runtime-1.27-5C6BC0.svg">
-  <img alt="362 tests passing" src="https://img.shields.io/badge/tests-362%20passing-brightgreen.svg">
+  <img alt="397 tests passing" src="https://img.shields.io/badge/tests-397%20passing-brightgreen.svg">
 </p>
 
 <p align="center">
@@ -194,6 +194,15 @@ These results suggest how each distillation term contributes:
 
 While hard pseudo-labels provide the primary supervision for unlabelled images, soft logit and feature distillation add a further $+0.59\text{ mAP}$ that closes the remaining gap to direct human supervision, plausibly by transferring calibrated confidence, inter-class relations, and scale-balanced intermediate representations that hard bounding boxes alone do not carry.
 
+The montage below shows the full-budget soft logit + feature KD student from the first table (20.04 mAP@0.5:0.95) on four held-out test-dev flights.
+
+<p align="center">
+  <img alt="Four held-out VisDrone test-dev flights shown one after another, four frames each: a daytime boulevard, a car park in low sun, streets at dusk and a pedestrian street at night. The full-budget supervised + KD YOLO26n student's detections are outlined in class colors, keyed in a legend strip below each frame." src="assets/flight_predictions.webp" width="820">
+</p>
+<p align="center">
+  <sub><b>Four frames per flight, spread evenly through its test-dev images; raw model output at confidence ≥ 0.25.</b></sub>
+</p>
+
 ---
 
 ## 4. Robustness to deployment conditions
@@ -288,7 +297,7 @@ python src/export.py --model yolo_manual --weights <checkpoint> --precision fp16
 python src/export.py --model yolo_manual --weights <checkpoint> --precision int8 --format onnx engine \
     --yolo-int8-profile head_fp32
 
-pytest -q          # 362 tests
+pytest -q          # 397 tests
 ```
 
 ---
@@ -317,9 +326,10 @@ src/         train.py                training loops for the YOLO26n student and 
              trt_export.py           strongly-typed TensorRT engine builds
              slim_checkpoint.py      strips training checkpoints to EMA weights and lineage for release
              visualize.py            predictions against ground truth, including the worst offenders
+             render_sequences.py     predictions only, over whole test flights, as animations and filmstrips
              rtdetr/                 vendored RT-DETR architecture
 
-tests/       362 tests               contract rejections, loss scaling, calibration, gate behaviour
+tests/       397 tests               contract rejections, loss scaling, calibration, gate behaviour
 ```
 
 ---
